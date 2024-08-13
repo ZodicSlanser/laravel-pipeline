@@ -27,7 +27,7 @@ jobs:
     - name: Set up PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.1'  # Set to your Laravel PHP version
+        php-version: '8.2'
 
     - name: Install Composer dependencies
       run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
@@ -41,7 +41,7 @@ jobs:
       run: npm install
 
     - name: Build assets
-      run: npm run production  # Adjust this to your build command
+      run: php artisan build
 
     - name: Archive Production Build
       run: |
