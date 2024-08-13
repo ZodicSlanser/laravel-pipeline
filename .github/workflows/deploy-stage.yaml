@@ -27,8 +27,7 @@ jobs:
     - name: Set up PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.2'
-        extensions: mbstring, intl, pdo, pdo_mysql, bcmath, xml, ctype, fileinfo, json
+        php-version: '8.1'  # Set to your Laravel PHP version
 
     - name: Install Composer dependencies
       run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
@@ -42,18 +41,14 @@ jobs:
       run: npm install
 
     - name: Build assets
-      run: npm run build
-
-    - name: Generate Laravel Optimized Files
-      run: |
-        php artisan config:cache
-        php artisan route:cache
-        php artisan view:cache
+      run: npm run production  # Adjust this to your build command
 
     - name: Archive Production Build
       run: |
+        ls -la
         zip -r dist.zip . -x "node_modules/*" -x ".git/*" -x "vendor/*" -x "storage/*" -x "tests/*" -x "bootstrap/cache/*"
-
+        ls -la dist.zip
+        if [ ! -f dist.zip ]; then echo "dist.zip was not created!"; exit 1; fi
 
   deploy:
     needs: build
