@@ -51,7 +51,10 @@ jobs:
         php artisan view:cache
 
     - name: Archive Production Build
-      run: zip -r dist.zip . -x "node_modules/*" -x ".git/*" -x "vendor/*"
+      run: |
+        zip -r dist.zip . -x "node_modules/*" -x ".git/*" -x "vendor/*" -x "storage/*" -x "tests/*" -x "bootstrap/cache/*"
+        mv dist.zip dist.zip
+
 
   deploy:
     needs: build
